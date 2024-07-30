@@ -17,15 +17,25 @@ public class VoiceClientHandler {
                     DataPacket d = (DataPacket) in.readObject();
                     voiceChatID = d.getVc();
                     for(VoiceClientHandler v : VoiceServer.clientHandlers){
-                        //if(v == this) continue;
-                        if(v.voiceChatID.equals(voiceChatID)){
-                            v.output.writeObject(d);
-                            v.output.flush();
-                        }
+                        if(v == this) continue;
+                        //if(v.voiceChatID.equals(voiceChatID)){
+                        //System.out.println("relaying");
+                        v.output.writeObject(d);
+                        v.output.flush();
+                        //}
                     }
                 }
                 catch (Exception e){
-
+                    try {
+                        output.close();
+                        in.close();
+                        socket.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    VoiceServer.clientHandlers.remove(this);
+                    System.out.println("Removing");
+                    break;
                 }
             }
         }).start();
