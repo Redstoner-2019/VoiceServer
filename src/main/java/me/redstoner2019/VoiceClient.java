@@ -75,7 +75,7 @@ public class VoiceClient {
         while (true) {
             byte[] buffer = new byte[1024];
             microphone.read(buffer,0,buffer.length);
-            DataPacket data = new DataPacket(buffer,voiceChat);
+            DataPacket data = new DataPacket(buffer,voiceChat,"");
             output.writeObject(data);
             output.flush();
         }
