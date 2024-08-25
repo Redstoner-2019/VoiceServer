@@ -17,10 +17,10 @@ public class VoiceClientHandler {
             while (true) {
                 try{
                     DataPacket d = (DataPacket) in.readObject();
-                    voiceChatID = d.getVc();
+                    this.voiceChatID = d.getVc();
                     //System.out.println("Data length " + d.getData().length);
                     for(VoiceClientHandler v : VoiceServer.clientHandlers){
-                        //if(v == this) continue;
+                        if(v == this) continue;
                         if(v.voiceChatID.equals(voiceChatID)){
                         //System.out.println("relaying");
                         List<String> users = VoiceServer.servers.getOrDefault(d.getVc(),new ArrayList<>());
